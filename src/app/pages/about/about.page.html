@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio"></ion-back-button>
+    </ion-buttons>
+    <ion-title> About </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1>Sobre nosotros</h1>
+
+  <p>
+    <strong>DAM2 Productos</strong> es una aplicación de ejemplo desarrollada
+    como actividad guiada para la asignatura de Desarrollo de Interfaces
+    (DAM2). Nuestro objetivo es mostrar, de forma práctica, cómo construir
+    una aplicación Ionic + Angular Standalone capaz de consumir una API REST
+    real y presentar sus datos de forma clara y accesible.
+  </p>
+
+  <p>
+    Este proyecto ha sido creado con fines educativos, aplicando buenas
+    prácticas de Angular moderno: componentes Standalone, control de flujo
+    con <code>&#64;if</code>/<code>&#64;for</code>, signals y rutas lazy-loaded.
+  </p>
+
+  <p>
+    Puedes ver más proyectos en mi perfil de GitHub:
+    <a [href]="githubUrl" target="_blank" rel="noopener noreferrer">{{ githubUrl }}</a>
+  </p>
+
+  <ion-button expand="block" fill="outline" routerLink="/inicio">
+    Volver a Inicio
+  </ion-button>
+</ion-content>

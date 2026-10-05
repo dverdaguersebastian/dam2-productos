@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -24,6 +25,7 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./productos.page.scss'],
   imports: [
     CurrencyPipe,
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -69,5 +71,15 @@ export class ProductosPage implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  /**
+   * Calcula el valor total del stock de un producto aplicando su descuento:
+   * unidades * precio - descuento aplicable (unidades * precio * % descuento).
+   */
+  valorStock(product: Product): number {
+    const subtotal = product.stock * product.price;
+    const descuentoAplicable = subtotal * (product.discountPercentage / 100);
+    return subtotal - descuentoAplicable;
   }
 }

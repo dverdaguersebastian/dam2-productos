@@ -42,9 +42,12 @@
             <th>Producto</th>
             <th>Categoría</th>
             <th>Marca</th>
+            <th>Ancho</th>
+            <th>Alto</th>
             <th>Precio</th>
             <th>Valoración</th>
             <th>Stock</th>
+            <th>Stock valorado</th>
           </tr>
         </thead>
         <tbody>
@@ -59,13 +62,20 @@
               </td>
               <td>{{ product.category }}</td>
               <td>{{ product.brand || 'Sin marca' }}</td>
+              <td>{{ product.dimensions.width }} cm</td>
+              <td>{{ product.dimensions.height }} cm</td>
               <td>{{ product.price | currency: 'EUR' }}</td>
               <td>⭐ {{ product.rating }}</td>
               <td>{{ product.stock }}</td>
+              <td>{{ valorStock(product) | currency: 'EUR' }}</td>
             </tr>
           }
         </tbody>
       </table>
     </div>
   }
+
+  <ion-button expand="block" fill="outline" routerLink="/inicio">
+    Volver a Inicio
+  </ion-button>
 </ion-content>
