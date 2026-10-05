@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -51,6 +51,11 @@ export class ProductosPage implements OnInit {
   loading = signal(false);
   error = signal('');
 
+  // Paginación: la API de dummyjson soporta "limit" y "skip".
+  readonly pageSize = 10;
+  page = signal(1);
+  totalPages = computed(() => Math.max(1, Math.ceil(this.total() / this.pageSize)));
+
   ngOnInit(): void {
     this.loadProducts();
   }
@@ -59,7 +64,9 @@ export class ProductosPage implements OnInit {
     this.loading.set(true);
     this.error.set('');
 
-    this.productService.getProducts().subscribe({
+    const skip = (this.page() - 1) * this.pageSize;
+
+    this.productService.getProducts(this.pageSize, skip).subscribe({
       next: (response: ProductsResponse) => {
         this.products.set(response.products);
         this.total.set(response.total);
@@ -71,6 +78,22 @@ export class ProductosPage implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages()) {
+      return;
+    }
+    this.page.set(page);
+    this.loadProducts();
+  }
+
+  previousPage(): void {
+    this.goToPage(this.page() - 1);
+  }
+
+  nextPage(): void {
+    this.goToPage(this.page() + 1);
   }
 
   /**

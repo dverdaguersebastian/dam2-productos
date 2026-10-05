@@ -4,6 +4,14 @@ export interface Dimensions {
   depth: number;
 }
 
+export interface Review {
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+  reviewerEmail: string;
+}
+
 export interface Product {
   id: number;
   title: string;
@@ -15,7 +23,9 @@ export interface Product {
   stock: number;
   brand: string;
   thumbnail: string;
+  images: string[];
   dimensions: Dimensions;
+  reviews: Review[];
 }
 
 export interface ProductsResponse {

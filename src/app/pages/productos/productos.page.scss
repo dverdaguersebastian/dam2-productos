@@ -38,6 +38,25 @@ th {
   object-fit: contain;
 }
 
+.product a {
+  color: var(--ion-color-primary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.pagination-info {
+  min-width: 110px;
+  text-align: center;
+}
+
 ion-button[routerLink] {
   margin-top: 20px;
 }

@@ -31,7 +31,8 @@
 
   @if (!loading() && !error()) {
     <p>
-      Productos cargados: <strong>{{ products().length }}</strong>
+      Productos cargados: <strong>{{ products().length }}</strong> de
+      <strong>{{ total() }}</strong> (página {{ page() }} de {{ totalPages() }})
     </p>
 
     <div class="table-container">
@@ -57,7 +58,7 @@
               <td>
                 <div class="product">
                   <img [src]="product.thumbnail" [alt]="product.title" />
-                  <span>{{ product.title }}</span>
+                  <a [routerLink]="['/productos', product.id]">{{ product.title }}</a>
                 </div>
               </td>
               <td>{{ product.category }}</td>
@@ -72,6 +73,16 @@
           }
         </tbody>
       </table>
+    </div>
+
+    <div class="pagination">
+      <ion-button fill="outline" [disabled]="page() === 1" (click)="previousPage()">
+        ‹ Anterior
+      </ion-button>
+      <span class="pagination-info">Página {{ page() }} / {{ totalPages() }}</span>
+      <ion-button fill="outline" [disabled]="page() === totalPages()" (click)="nextPage()">
+        Siguiente ›
+      </ion-button>
     </div>
   }
 
