@@ -44,6 +44,7 @@ th {
   font-weight: 500;
 }
 
+// ===== PAGINACIÓN: estilos de los botones Anterior/Siguiente =====
 .pagination {
   display: flex;
   align-items: center;
@@ -56,6 +57,7 @@ th {
   min-width: 110px;
   text-align: center;
 }
+// ===== FIN PAGINACIÓN =====
 
 ion-button[routerLink] {
   margin-top: 20px;

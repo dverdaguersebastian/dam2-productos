@@ -30,6 +30,7 @@
   }
 
   @if (!loading() && !error()) {
+    <!-- ===== PAGINACIÓN: resumen de la página actual ===== -->
     <p>
       Productos cargados: <strong>{{ products().length }}</strong> de
       <strong>{{ total() }}</strong> (página {{ page() }} de {{ totalPages() }})
@@ -75,6 +76,9 @@
       </table>
     </div>
 
+    <!-- ===== PAGINACIÓN: botones Anterior/Siguiente =====
+         previousPage()/nextPage() están definidos en productos.page.ts.
+         Se deshabilitan automáticamente en la primera/última página. -->
     <div class="pagination">
       <ion-button fill="outline" [disabled]="page() === 1" (click)="previousPage()">
         ‹ Anterior
@@ -84,6 +88,7 @@
         Siguiente ›
       </ion-button>
     </div>
+    <!-- ===== FIN PAGINACIÓN ===== -->
   }
 
   <ion-button expand="block" fill="outline" routerLink="/inicio">

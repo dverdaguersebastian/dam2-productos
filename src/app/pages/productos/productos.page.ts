@@ -51,10 +51,15 @@ export class ProductosPage implements OnInit {
   loading = signal(false);
   error = signal('');
 
-  // Paginación: la API de dummyjson soporta "limit" y "skip".
+  // ===== PAGINACIÓN =====
+  // La API de dummyjson soporta paginación real con los parámetros
+  // "limit" (productos por página) y "skip" (cuántos se saltan).
+  // pageSize = tamaño fijo de página; page = página actual (empieza en 1);
+  // totalPages se recalcula solo cuando cambia "total" (nº real de productos).
   readonly pageSize = 10;
   page = signal(1);
   totalPages = computed(() => Math.max(1, Math.ceil(this.total() / this.pageSize)));
+  // ===== FIN PAGINACIÓN (sigue en loadProducts() y en los métodos de abajo) =====
 
   ngOnInit(): void {
     this.loadProducts();
@@ -64,6 +69,8 @@ export class ProductosPage implements OnInit {
     this.loading.set(true);
     this.error.set('');
 
+    // PAGINACIÓN: calculamos cuántos productos saltarnos según la página
+    // actual y se lo pasamos al servicio junto con el tamaño de página.
     const skip = (this.page() - 1) * this.pageSize;
 
     this.productService.getProducts(this.pageSize, skip).subscribe({
@@ -80,6 +87,10 @@ export class ProductosPage implements OnInit {
     });
   }
 
+  // ===== PAGINACIÓN: navegación entre páginas =====
+  // goToPage valida los límites (no ir antes de la 1 ni después de la última)
+  // y recarga los productos de la nueva página. previousPage/nextPage son
+  // los helpers que usan los botones "‹ Anterior" / "Siguiente ›" del HTML.
   goToPage(page: number): void {
     if (page < 1 || page > this.totalPages()) {
       return;
@@ -95,6 +106,7 @@ export class ProductosPage implements OnInit {
   nextPage(): void {
     this.goToPage(this.page() + 1);
   }
+  // ===== FIN PAGINACIÓN =====
 
   /**
    * Calcula el valor total del stock de un producto aplicando su descuento:
