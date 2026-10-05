@@ -19,6 +19,7 @@ import {
 
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
+import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -41,6 +42,7 @@ import { ProductService } from '../../services/product.service';
     IonCardContent,
     IonButton,
     IonBadge,
+    ThemeToggleComponent,
   ],
 })
 export class ProductoDetallePage implements OnInit {

@@ -1,0 +1,40 @@
+<ion-card class="product-card">
+  <div class="product-card__image-wrap">
+    <img [src]="product().thumbnail" [alt]="product().title" />
+    <ion-badge class="product-card__rating" color="warning">⭐ {{ product().rating }}</ion-badge>
+  </div>
+
+  <ion-card-header>
+    <ion-card-title>
+      <a [routerLink]="['/productos', product().id]">{{ product().title }}</a>
+    </ion-card-title>
+    <div class="product-card__tags">
+      <ion-badge color="medium">{{ product().category }}</ion-badge>
+      <ion-badge color="tertiary">{{ product().brand || 'Sin marca' }}</ion-badge>
+    </div>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div class="product-card__stats">
+      <div class="stat">
+        <span class="stat__label">Precio</span>
+        <span class="stat__value">{{ product().price | currency: 'EUR' }}</span>
+      </div>
+      <div class="stat">
+        <span class="stat__label">Dimensiones</span>
+        <span class="stat__value">{{ product().dimensions.width }} × {{ product().dimensions.height }} cm</span>
+      </div>
+      <div class="stat">
+        <span class="stat__label">Stock valorado</span>
+        <span class="stat__value">{{ valorStock() | currency: 'EUR' }}</span>
+      </div>
+    </div>
+
+    <div class="product-card__stock">
+      <div class="product-card__stock-label">
+        <span>Stock: {{ product().stock }} uds.</span>
+      </div>
+      <ion-progress-bar [value]="stockRatio()" [color]="stockColor()"></ion-progress-bar>
+    </div>
+  </ion-card-content>
+</ion-card>

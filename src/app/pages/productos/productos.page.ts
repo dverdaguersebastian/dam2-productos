@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
   IonHeader,
@@ -18,6 +18,8 @@ import {
 
 import { Product, ProductsResponse } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
+import { ProductCardComponent } from '../../components/product-card/product-card.component';
+import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-productos',
@@ -25,6 +27,7 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./productos.page.scss'],
   imports: [
     CurrencyPipe,
+    DecimalPipe,
     RouterLink,
     IonHeader,
     IonToolbar,
@@ -38,6 +41,8 @@ import { ProductService } from '../../services/product.service';
     IonCardTitle,
     IonCardContent,
     IonButton,
+    ProductCardComponent,
+    ThemeToggleComponent,
   ],
 })
 export class ProductosPage implements OnInit {
@@ -50,6 +55,21 @@ export class ProductosPage implements OnInit {
   total = signal(0);
   loading = signal(false);
   error = signal('');
+
+  // ===== DASHBOARD: estadísticas resumen de la página actual =====
+  // En vez de solo listar filas, calculamos indicadores agregados para dar
+  // una vista tipo "dashboard" sobre los productos mostrados.
+  valorStockTotalPagina = computed(() =>
+    this.products().reduce((acc, p) => acc + this.valorStock(p), 0),
+  );
+
+  valoracionMedia = computed(() => {
+    const items = this.products();
+    if (items.length === 0) return 0;
+    const suma = items.reduce((acc, p) => acc + p.rating, 0);
+    return suma / items.length;
+  });
+  // ===== FIN DASHBOARD =====
 
   // ===== PAGINACIÓN =====
   // La API de dummyjson soporta paginación real con los parámetros

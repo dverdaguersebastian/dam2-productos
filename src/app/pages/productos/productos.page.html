@@ -4,11 +4,14 @@
       <ion-back-button defaultHref="/inicio"></ion-back-button>
     </ion-buttons>
     <ion-title> Productos </ion-title>
+    <ion-buttons slot="end">
+      <app-theme-toggle></app-theme-toggle>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h1>Listado de productos</h1>
+  <h1>Dashboard de productos</h1>
 
   @if (loading()) {
     <div class="loading">
@@ -30,51 +33,38 @@
   }
 
   @if (!loading() && !error()) {
-    <!-- ===== PAGINACIÓN: resumen de la página actual ===== -->
-    <p>
-      Productos cargados: <strong>{{ products().length }}</strong> de
-      <strong>{{ total() }}</strong> (página {{ page() }} de {{ totalPages() }})
-    </p>
-
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Producto</th>
-            <th>Categoría</th>
-            <th>Marca</th>
-            <th>Ancho</th>
-            <th>Alto</th>
-            <th>Precio</th>
-            <th>Valoración</th>
-            <th>Stock</th>
-            <th>Stock valorado</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (product of products(); track product.id) {
-            <tr>
-              <td>{{ product.id }}</td>
-              <td>
-                <div class="product">
-                  <img [src]="product.thumbnail" [alt]="product.title" />
-                  <a [routerLink]="['/productos', product.id]">{{ product.title }}</a>
-                </div>
-              </td>
-              <td>{{ product.category }}</td>
-              <td>{{ product.brand || 'Sin marca' }}</td>
-              <td>{{ product.dimensions.width }} cm</td>
-              <td>{{ product.dimensions.height }} cm</td>
-              <td>{{ product.price | currency: 'EUR' }}</td>
-              <td>⭐ {{ product.rating }}</td>
-              <td>{{ product.stock }}</td>
-              <td>{{ valorStock(product) | currency: 'EUR' }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <!-- ===== DASHBOARD: tarjetas de estadísticas resumen de la página ===== -->
+    <div class="summary-grid">
+      <ion-card class="summary-card">
+        <ion-card-content>
+          <span class="summary-card__label">Productos en página</span>
+          <span class="summary-card__value">{{ products().length }} / {{ total() }}</span>
+        </ion-card-content>
+      </ion-card>
+      <ion-card class="summary-card">
+        <ion-card-content>
+          <span class="summary-card__label">Valor de stock (página)</span>
+          <span class="summary-card__value">{{ valorStockTotalPagina() | currency: 'EUR' }}</span>
+        </ion-card-content>
+      </ion-card>
+      <ion-card class="summary-card">
+        <ion-card-content>
+          <span class="summary-card__label">Valoración media</span>
+          <span class="summary-card__value">⭐ {{ valoracionMedia() | number: '1.1-2' }}</span>
+        </ion-card-content>
+      </ion-card>
     </div>
+    <!-- ===== FIN DASHBOARD ===== -->
+
+    <!-- ===== DASHBOARD: grid de tarjetas de producto (sustituye a la tabla) =====
+         Cada tarjeta es el componente reutilizable app-product-card, que ya
+         calcula internamente el stock valorado y la barra de stock. -->
+    <div class="product-grid">
+      @for (product of products(); track product.id) {
+        <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
+    <!-- ===== FIN DASHBOARD ===== -->
 
     <!-- ===== PAGINACIÓN: botones Anterior/Siguiente =====
          previousPage()/nextPage() están definidos en productos.page.ts.

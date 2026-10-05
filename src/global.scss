@@ -33,5 +33,7 @@
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* Modo oscuro controlado manualmente por el usuario (ThemeService añade/quita
+   la clase "ion-palette-dark" en <html>), en vez de seguir solo la preferencia
+   del sistema (dark.system.css). */
+@import '@ionic/angular/css/palettes/dark.class.css';
